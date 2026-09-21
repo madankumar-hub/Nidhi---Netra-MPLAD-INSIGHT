@@ -65,7 +65,6 @@ services:
   - type: web
     name: mplad-web
     runtime: static
-  
     rootDir: frontend
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
