@@ -1,0 +1,16 @@
+# Optional: PostgreSQL driver.
+#
+#   pip install -r requirements-postgres.txt
+#
+# Only needed when DATABASE_URL points at PostgreSQL. The default SQLite
+# configuration needs nothing extra.
+#
+# `psycopg[binary]` is used rather than `psycopg2-binary` because psycopg2 has
+# no prebuilt wheel for the newest Python releases and would otherwise try to
+# compile against libpq, which requires a C toolchain.
+#
+# Connection string for psycopg 3:
+#   DATABASE_URL=postgresql+psycopg://user:password@localhost:5432/mplad_insight
+
+-r requirements.txt
+psycopg[binary]>=3.2.3,<4.0

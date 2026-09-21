@@ -1,0 +1,246 @@
+###############################################################################
+# MPLAD Insight - API walk-through
+#
+# Open this file in VS Code with the "REST Client" extension (humao.rest-client)
+# installed and click "Send Request" above any block.
+#
+# Start the API first:  uvicorn app.main:app --reload --port 8000
+# Passwords: backend/.seed-credentials.txt
+###############################################################################
+
+@host = http://localhost:8000
+@citizenEmail = citizen@example.com
+@citizenPassword = PASTE_FROM_SEED_CREDENTIALS
+@auditorEmail = auditor@mplad.gov.in
+@auditorPassword = PASTE_FROM_SEED_CREDENTIALS
+@projectId = 1
+
+### Health check
+GET {{host}}/api/health
+
+###############################################################################
+# CITIZEN PORTAL - no token required
+###############################################################################
+
+### Search works (FR4) - filtering happens in SQL, not in the browser
+GET {{host}}/api/projects?search=water&district=Pune&page_size=5
+
+### Filter facets for the dropdowns
+GET {{host}}/api/projects/filters
+
+### Public aggregate statistics
+GET {{host}}/api/projects/statistics
+
+### Citizen scheme detail (FR5, FR7a)
+# Note what is NOT here: no risk_score, no risk_level, no review_status,
+# no factors, no notes, no reviews, no mitigation, no audit trail.
+GET {{host}}/api/projects/{{projectId}}
+
+###############################################################################
+# AUTHENTICATION
+###############################################################################
+
+### Sign in as a citizen
+# @name citizenLogin
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "{{citizenEmail}}", "password": "{{citizenPassword}}" }
+
+###
+@citizenToken = {{citizenLogin.response.body.access_token}}
+
+### Sign in as an auditor
+# @name auditorLogin
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "{{auditorEmail}}", "password": "{{auditorPassword}}" }
+
+###
+@auditorToken = {{auditorLogin.response.body.access_token}}
+
+### Who am I?
+GET {{host}}/api/auth/me
+Authorization: Bearer {{auditorToken}}
+
+### Citizen sign-up, step 1 - request a one-time code (FR1)
+# In development the code comes back as `dev_otp` and is logged to the console.
+POST {{host}}/api/auth/signup/request-otp
+Content-Type: application/json
+
+{ "email": "new.citizen@example.com", "full_name": "New Citizen" }
+
+### Citizen sign-up, step 2 - verify and create the account
+POST {{host}}/api/auth/signup/verify
+Content-Type: application/json
+
+{
+  "email": "new.citizen@example.com",
+  "full_name": "New Citizen",
+  "otp": "PASTE_THE_DEV_OTP",
+  "password": "choose-a-password"
+}
+
+###############################################################################
+# THE IMPORTANT ONES - a citizen must be refused internal data (FR3)
+# Every request in this block should return 403 insufficient_role.
+###############################################################################
+
+### Citizen -> admin dashboard  (expect 403)
+GET {{host}}/api/admin/dashboard
+Authorization: Bearer {{citizenToken}}
+
+### Citizen -> risk analysis  (expect 403)
+GET {{host}}/api/admin/projects/{{projectId}}/risk
+Authorization: Bearer {{citizenToken}}
+
+### Citizen -> internal notes  (expect 403)
+GET {{host}}/api/admin/projects/{{projectId}}/notes
+Authorization: Bearer {{citizenToken}}
+
+### Citizen -> audit trail  (expect 403)
+GET {{host}}/api/admin/projects/{{projectId}}/activity
+Authorization: Bearer {{citizenToken}}
+
+### Citizen -> mitigation actions  (expect 403)
+GET {{host}}/api/admin/projects/{{projectId}}/mitigation
+Authorization: Bearer {{citizenToken}}
+
+### Citizen with a hand-edited role claim  (still 403 - the role is
+### re-read from the database, never taken from the token)
+GET {{host}}/api/admin/projects
+Authorization: Bearer {{citizenToken}}
+
+###############################################################################
+# OFFICIALS' PORTAL - the same paths, with an auditor token (expect 200)
+###############################################################################
+
+### Dashboard counters
+GET {{host}}/api/admin/dashboard
+Authorization: Bearer {{auditorToken}}
+
+### Which analysis layers are actually running
+GET {{host}}/api/admin/risk-engine
+Authorization: Bearer {{auditorToken}}
+
+### Works register with risk, review and mitigation state
+GET {{host}}/api/admin/projects?risk_level=HIGH&page_size=5
+Authorization: Bearer {{auditorToken}}
+
+### Ranked list flagged for investigation (FR10)
+GET {{host}}/api/admin/projects/flagged?limit=10&min_score=50
+Authorization: Bearer {{auditorToken}}
+
+### Full risk drill-down (FR11) - every factor carries its evidence,
+### the metric that fired, and the threshold it crossed
+GET {{host}}/api/admin/projects/{{projectId}}/risk
+Authorization: Bearer {{auditorToken}}
+
+### Re-run the assessment for one work
+POST {{host}}/api/admin/projects/{{projectId}}/risk/recompute
+Authorization: Bearer {{auditorToken}}
+Content-Type: application/json
+
+{ "use_external_ai": false }
+
+### Assessment history - how this work's risk has moved over time
+GET {{host}}/api/admin/projects/{{projectId}}/risk/history
+Authorization: Bearer {{auditorToken}}
+
+### Record a review (FR13) - persisted, and it writes to the audit trail
+POST {{host}}/api/admin/projects/{{projectId}}/reviews
+Authorization: Bearer {{auditorToken}}
+Content-Type: application/json
+
+{
+  "status": "Delayed",
+  "findings": "Site inspection carried out. Physical progress is materially behind the sanctioned milestone schedule.",
+  "action_required": "Obtain a revised completion schedule from the executing agency.",
+  "follow_up_required": true
+}
+
+### Add an internal note - persisted, never visible to citizens
+POST {{host}}/api/admin/projects/{{projectId}}/notes
+Authorization: Bearer {{auditorToken}}
+Content-Type: application/json
+
+{
+  "content": "Expenditure-progress divergence discussed with the district office. Further releases held pending reconciliation.",
+  "note_type": "Risk Note",
+  "is_pinned": true
+}
+
+### Read the notes back
+GET {{host}}/api/admin/projects/{{projectId}}/notes
+Authorization: Bearer {{auditorToken}}
+
+### Add a mitigation action with a responsible party and a due date
+POST {{host}}/api/admin/projects/{{projectId}}/mitigation
+Authorization: Bearer {{auditorToken}}
+Content-Type: application/json
+
+{
+  "action": "Require third-party physical verification before the next release.",
+  "responsible_party": "District Authority",
+  "priority": 1,
+  "due_date": "2026-10-31"
+}
+
+### Change the execution status - persisted and audited
+POST {{host}}/api/admin/projects/{{projectId}}/status
+Authorization: Bearer {{auditorToken}}
+Content-Type: application/json
+
+{ "status": "Delayed", "reason": "Progress behind schedule confirmed on site." }
+
+### Audit trail for this work - the status change should now be at the top
+GET {{host}}/api/admin/projects/{{projectId}}/activity
+Authorization: Bearer {{auditorToken}}
+
+### Record an expenditure entry (recomputes totals and re-runs the assessment)
+POST {{host}}/api/admin/projects/{{projectId}}/fund-updates
+Authorization: Bearer {{auditorToken}}
+Content-Type: application/json
+
+{
+  "updated_on": "2026-09-01",
+  "released_amount": 2.5,
+  "expenditure_amount": 2.5,
+  "voucher_reference": "V/2026/4417"
+}
+
+### Record a progress entry
+POST {{host}}/api/admin/projects/{{projectId}}/progress
+Authorization: Bearer {{auditorToken}}
+Content-Type: application/json
+
+{
+  "updated_on": "2026-09-01",
+  "progress_percent": 62.5,
+  "milestone": "Structure work in progress"
+}
+
+### Everything the analytics page charts
+GET {{host}}/api/admin/analytics
+Authorization: Bearer {{auditorToken}}
+
+### Delayed works
+GET {{host}}/api/admin/delayed-projects
+Authorization: Bearer {{auditorToken}}
+
+### Works awaiting a first review
+GET {{host}}/api/admin/pending-review
+Authorization: Bearer {{auditorToken}}
+
+### Citizen reports queue
+GET {{host}}/api/admin/citizen-reports?status=Submitted
+Authorization: Bearer {{auditorToken}}
+
+### CSV export of the flagged works (FR12)
+GET {{host}}/api/admin/projects/export?flagged_only=true
+Authorization: Bearer {{auditorToken}}
+
+### Batch re-scoring across the whole scheme
+POST {{host}}/api/admin/risk/recompute-all
+Authorization: Bearer {{auditorToken}}

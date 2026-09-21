@@ -1,0 +1,47 @@
+# MPLAD Insight - local stack.
+#
+#   cp backend/.env.example backend/.env    (then fill in the values)
+#   docker compose up --build
+#   docker compose exec api python -m seed.seed_data --reset
+#
+# Secrets are read from backend/.env; nothing sensitive lives in this file.
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-mplad_insight}
+      POSTGRES_USER: ${POSTGRES_USER:-mplad}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in your environment or .env}
+    volumes:
+      - mplad_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mplad} -d ${POSTGRES_DB:-mplad_insight}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "5432:5432"
+
+  api:
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-mplad}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-mplad_insight}
+      CORS_ORIGINS: http://localhost:5173,http://localhost:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+  web:
+    build: ./frontend
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+
+volumes:
+  mplad_pgdata:

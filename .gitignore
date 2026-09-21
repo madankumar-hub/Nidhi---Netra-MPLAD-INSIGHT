@@ -1,0 +1,44 @@
+# --- Secrets (never commit) ------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+backend/.seed-credentials.txt
+
+# --- Python ----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Databases -------------------------------------------------------------
+*.db
+*.sqlite
+*.sqlite3
+backend/mplad_insight.db
+
+# --- Node / frontend -------------------------------------------------------
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Editors / OS ----------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Build / check scratch -------------------------------------------------
+tsconfig.check.json
+coverage/

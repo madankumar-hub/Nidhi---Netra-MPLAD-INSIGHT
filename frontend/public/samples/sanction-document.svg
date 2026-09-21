@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 800" role="img"
+     aria-label="Sample sanction document placeholder - synthetic demonstration data">
+  <title>Sample sanction document (synthetic demonstration data)</title>
+  <rect width="620" height="800" fill="#ffffff"/>
+  <rect x="0" y="0" width="620" height="8" fill="#f97b0b"/>
+  <text x="310" y="70" font-family="system-ui, sans-serif" font-size="22" font-weight="700"
+        fill="#16233a" text-anchor="middle">SAMPLE — NOT AN OFFICIAL DOCUMENT</text>
+  <text x="310" y="104" font-family="system-ui, sans-serif" font-size="15"
+        fill="#3a5177" text-anchor="middle">Synthetic placeholder for demonstration only</text>
+  <line x1="60" y1="140" x2="560" y2="140" stroke="#ccd5e4" stroke-width="2"/>
+  <g fill="#ccd5e4">
+    <rect x="60" y="180" width="500" height="13" rx="3"/>
+    <rect x="60" y="212" width="470" height="13" rx="3"/>
+    <rect x="60" y="244" width="500" height="13" rx="3"/>
+    <rect x="60" y="276" width="330" height="13" rx="3"/>
+    <rect x="60" y="336" width="500" height="13" rx="3"/>
+    <rect x="60" y="368" width="440" height="13" rx="3"/>
+    <rect x="60" y="400" width="500" height="13" rx="3"/>
+    <rect x="60" y="432" width="290" height="13" rx="3"/>
+    <rect x="60" y="492" width="500" height="13" rx="3"/>
+    <rect x="60" y="524" width="410" height="13" rx="3"/>
+  </g>
+  <rect x="60" y="610" width="230" height="90" fill="none" stroke="#a5b4cd" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="175" y="662" font-family="system-ui, sans-serif" font-size="14"
+        fill="#728ab0" text-anchor="middle">Signature block</text>
+  <text x="310" y="760" font-family="system-ui, sans-serif" font-size="13"
+        fill="#4e6a94" text-anchor="middle">MPLAD Insight — SIH 2026 demonstration dataset</text>
+</svg>

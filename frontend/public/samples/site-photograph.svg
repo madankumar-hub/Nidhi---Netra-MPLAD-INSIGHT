@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img"
+     aria-label="Sample site photograph placeholder - synthetic demonstration data">
+  <title>Sample site photograph (synthetic demonstration data)</title>
+  <rect width="800" height="500" fill="#e6ebf3"/>
+  <rect x="0" y="360" width="800" height="140" fill="#ccd5e4"/>
+  <path d="M0 360 L180 250 L320 340 L470 210 L640 320 L800 240 L800 360 Z" fill="#a5b4cd"/>
+  <circle cx="660" cy="105" r="38" fill="#ffbd6d"/>
+  <g fill="#728ab0">
+    <rect x="120" y="300" width="70" height="60"/>
+    <rect x="210" y="285" width="55" height="75"/>
+    <rect x="285" y="310" width="80" height="50"/>
+  </g>
+  <rect x="0" y="0" width="800" height="52" fill="#16233a"/>
+  <text x="24" y="34" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff">
+    Sample site photograph — placeholder
+  </text>
+  <text x="400" y="432" font-family="system-ui, sans-serif" font-size="19" font-weight="600"
+        fill="#26344c" text-anchor="middle">
+    Synthetic demonstration data (SIH 2026, SIH26102)
+  </text>
+  <text x="400" y="462" font-family="system-ui, sans-serif" font-size="15"
+        fill="#3a5177" text-anchor="middle">
+    Not an actual photograph of a sanctioned work
+  </text>
+</svg>

@@ -1,0 +1,26 @@
+# Runtime dependencies.
+#
+# Lower bounds rather than exact pins: an exact pin means that a Python release
+# newer than the pinned build has no wheel, and pip falls back to compiling from
+# source - which needs a C toolchain the average machine does not have. Floors
+# keep the project installable on Python 3.11 through 3.14 while still
+# guaranteeing the features the code relies on.
+
+fastapi>=0.115.6,<1.0
+uvicorn[standard]>=0.34.0,<1.0
+SQLAlchemy>=2.0.36,<2.1
+pydantic>=2.12.0,<3.0
+pydantic-settings>=2.7.0,<3.0
+
+# Auth. bcrypt and PyJWT are used directly - see app/core/security.py for why
+# passlib and python-jose are deliberately not used.
+bcrypt>=4.0.1,<6.0
+PyJWT>=2.10.0,<3.0
+
+python-multipart>=0.0.20
+email-validator>=2.2.0,<3.0
+python-dateutil>=2.9.0
+httpx>=0.28.1,<1.0
+
+# PostgreSQL support is optional - see requirements-postgres.txt.
+# The application runs on SQLite out of the box with no extra packages.

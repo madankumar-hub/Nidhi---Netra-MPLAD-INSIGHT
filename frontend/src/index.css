@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * MPLAD Insight - government portal stylesheet.
+ *
+ * Conventions follow the Guidelines for Indian Government Websites (GIGW 3.0):
+ * a persistent skip link, a visible focus indicator on every interactive
+ * element, user-controlled text sizing, a high-contrast mode, and no meaning
+ * carried by colour alone.
+ */
+
+@layer base {
+  :root {
+    color-scheme: light;
+    /* Driven by the accessibility toolbar; 100% is the default. */
+    --text-scale: 1;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    font-size: calc(16px * var(--text-scale));
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-ink-50 font-sans text-base leading-relaxed text-ink-800 antialiased;
+  }
+
+  /* Devanagari needs a slightly larger body size to match Latin x-height. */
+  html[lang='hi'] body {
+    @apply font-devanagari text-[1.03rem];
+  }
+
+  /*
+   * Focus ring. Government portals are keyboard-navigated more than most, and
+   * GIGW requires the indicator to be clearly visible against any background.
+   */
+  :focus-visible {
+    @apply outline-none ring-2 ring-offset-2 ring-saffron-600;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold text-ink-900;
+    text-wrap: balance;
+  }
+
+  table {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Numeric columns line up; currency reads as currency. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * High-contrast mode, toggled from the accessibility toolbar.
+ * Kept as explicit overrides rather than a second palette so that every
+ * rule here is auditable against the WCAG-AAA contrast requirement.
+ * ------------------------------------------------------------------ */
+@layer base {
+  [data-contrast='high'] body {
+    @apply bg-white text-black;
+  }
+
+  [data-contrast='high'] .surface,
+  [data-contrast='high'] .gov-card {
+    @apply border-2 border-black bg-white shadow-none;
+  }
+
+  [data-contrast='high'] .field-control {
+    @apply border-2 border-black text-black;
+  }
+
+  [data-contrast='high'] a {
+    @apply underline;
+  }
+
+  [data-contrast='high'] .text-ink-400,
+  [data-contrast='high'] .text-ink-500,
+  [data-contrast='high'] .text-ink-600 {
+    @apply text-black;
+  }
+}
+
+@layer components {
+  /* --- Structure ---------------------------------------------------- */
+
+  .surface {
+    @apply rounded border border-ink-200 bg-white shadow-card;
+  }
+
+  /*
+   * The standard bordered content box used across government portals: a
+   * titled header rule over a white body.
+   */
+  .gov-card {
+    @apply rounded border border-ink-200 bg-white shadow-card;
+  }
+
+  .gov-card-header {
+    @apply flex flex-wrap items-center justify-between gap-2 border-b border-ink-200
+           bg-ink-50 px-4 py-2.5;
+  }
+
+  .gov-card-title {
+    @apply text-sm font-semibold uppercase tracking-wide text-ink-800;
+  }
+
+  /* Saffron rule under a section heading - a common device on India.gov.in. */
+  .gov-rule {
+    @apply relative pb-2;
+  }
+
+  .gov-rule::after {
+    content: '';
+    @apply absolute bottom-0 left-0 block h-[3px] w-12 bg-saffron-500;
+  }
+
+  /* --- Skip link (GIGW mandatory) ----------------------------------- */
+
+  .skip-link {
+    @apply absolute left-4 z-[100] -translate-y-20 rounded bg-ink-900 px-4 py-2 text-sm
+           font-semibold text-white transition-transform focus:translate-y-4;
+  }
+
+  /* --- Forms -------------------------------------------------------- */
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-semibold text-ink-800;
+  }
+
+  .field-control {
+    @apply w-full rounded border border-ink-300 bg-white px-3 py-2.5 text-sm text-ink-900
+           placeholder:text-ink-400 focus:border-ink-600 focus:outline-none focus:ring-2
+           focus:ring-ink-600/25 disabled:bg-ink-100 disabled:text-ink-500;
+  }
+
+  /* 44px minimum, per the SRS responsive spec and WCAG 2.5.5. */
+  .tap-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* --- Data display ------------------------------------------------- */
+
+  .data-label {
+    @apply text-xs font-semibold uppercase tracking-wide text-ink-500;
+  }
+
+  .data-value {
+    @apply mt-0.5 text-sm font-medium text-ink-900;
+  }
+
+  .skeleton {
+    @apply animate-pulse rounded bg-ink-200/70;
+  }
+
+  /* Alternating rows make long sanctioned-works tables scannable. */
+  .gov-table tbody tr:nth-child(even) {
+    @apply bg-ink-50/60;
+  }
+
+  .gov-table tbody tr:hover {
+    @apply bg-saffron-50;
+  }
+}
+
+/* Recharts: keep tooltips and axes inside the design system. */
+.recharts-default-tooltip {
+  border-radius: 0.25rem !important;
+  border: 1px solid #ccd5e4 !important;
+  box-shadow: 0 4px 14px rgba(13, 22, 38, 0.1);
+  font-size: 0.8125rem;
+}
+
+.recharts-cartesian-axis-tick text {
+  font-size: 11px;
+  fill: #4e6a94;
+}
+
+/* Print: a citizen or officer printing a work record should get a clean page. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .gov-card,
+  .surface {
+    border: 1px solid #999;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+}
