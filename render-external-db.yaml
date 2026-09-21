@@ -18,12 +18,7 @@ services:
     name: mplad-api
     runtime: python
     plan: free
-      - type: web
-    name: mplad-api
-    runtime: python
-    plan: free
     region: singapore
-    rootDir: backend
     rootDir: backend
     buildCommand: pip install -r requirements-postgres.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
@@ -70,11 +65,7 @@ services:
   - type: web
     name: mplad-web
     runtime: static
-      - type: web
-    name: mplad-web
-    runtime: static
     region: singapore
-    rootDir: frontend
     rootDir: frontend
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
