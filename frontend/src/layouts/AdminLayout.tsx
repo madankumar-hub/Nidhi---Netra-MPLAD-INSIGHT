@@ -20,6 +20,7 @@ import { useAuth } from '@/features/auth/AuthContext'
 import { useI18n } from '@/i18n'
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
 import { Emblem } from '@/components/layout/Emblem'
+import { MapNavIcon, MapNavLabel } from '@/features/map'
 
 export function AdminLayout() {
   const { t, tEnum } = useI18n()
@@ -35,6 +36,7 @@ export function AdminLayout() {
     { to: '/admin/reviews', label: t('nav.reviewQueue'), icon: ClipboardCheck, end: false },
     { to: '/admin/citizen-reports', label: t('nav.citizenReports'), icon: MessageSquareWarning, end: false },
     { to: '/admin/analytics', label: t('nav.analytics'), icon: BarChart3, end: false },
+    { to: '/admin/map', label: <MapNavLabel />, icon: MapNavIcon, end: false },
     { to: '/admin/activity', label: t('nav.activity'), icon: Activity, end: false },
     // Granting official roles is an Administrator power, so the link only
     // appears for them. The route and the API are guarded independently.

@@ -353,7 +353,7 @@ class PdfDocument:
         catalog_id = add(f"<< /Type /Catalog /Pages {pages_id} 0 R >>".encode("latin-1"))
         info_id = add(
             b"<< /Title (" + escape_pdf_text(self.title).encode("latin-1", "replace")
-            + b") /Producer (MPLAD Insight) >>"
+            + b") /Producer (Nidhi Netra) >>"
         )
 
         # Assemble the file, recording each object's byte offset for the xref.

@@ -1,7 +1,7 @@
 export const en = {
   // --- Branding / chrome --------------------------------------------------
   'gov.bar': 'Government of India | Ministry of Statistics and Programme Implementation',
-  'app.name': 'MPLAD Insight',
+  'app.name': 'Nidhi Netra',
   'app.tagline': 'Members of Parliament Local Area Development Scheme',
   'app.subtitle': 'Transparency and oversight platform',
   'nav.home': 'Home',
@@ -429,7 +429,7 @@ export const en = {
   // --- About --------------------------------------------------------------
   'about.whatTitle': 'What this platform does',
   'about.whatP1':
-    'MPLAD Insight brings together two things that usually live apart: a transparency portal where any citizen can look up a sanctioned work and follow its money and progress, and an oversight workspace where officials and auditors examine the same records for anomalies, delays and inefficiency.',
+    'Nidhi Netra brings together two things that usually live apart: a transparency portal where any citizen can look up a sanctioned work and follow its money and progress, and an oversight workspace where officials and auditors examine the same records for anomalies, delays and inefficiency.',
   'about.whatP2':
     "The two surfaces are deliberately separate. The citizen pages carry public project information, fund utilisation and physical progress. Internal risk scores, reviewer notes, mitigation tracking and the audit trail live only in the officials' portal, and the API refuses to serve them to a citizen account.",
   'about.howTitle': 'How works are assessed',

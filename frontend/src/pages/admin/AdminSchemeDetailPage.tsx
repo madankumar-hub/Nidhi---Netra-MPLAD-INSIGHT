@@ -36,6 +36,7 @@ import { NotesPanel } from '@/features/notes/NotesPanel'
 import { ReviewPanel } from '@/features/reviews/ReviewPanel'
 import { MitigationPanel } from '@/features/risk/MitigationPanel'
 import { RiskPanel } from '@/features/risk/RiskPanel'
+import { MapNavIcon, ProjectLocationPanel, useMapText } from '@/features/map'
 import { formatDate, formatDateTime, formatLakh, formatNumber, formatPercent } from '@/utils/format'
 
 /**
@@ -68,7 +69,7 @@ export function AdminSchemeDetailPage() {
   )
 
   const reload = () => setVersion((value) => value + 1)
-
+  const tm = useMapText()
   if (!Number.isFinite(projectId)) {
     return <EmptyState title={t('common.empty')} />
   }
@@ -95,6 +96,7 @@ export function AdminSchemeDetailPage() {
       icon: <IndianRupee className="h-4 w-4" aria-hidden />,
     },
     { id: 'progress', label: t('tab.progress'), icon: <TrendingUp className="h-4 w-4" aria-hidden /> },
+    { id: 'location', label: tm('locationTab'), icon: <MapNavIcon className="h-4 w-4" aria-hidden /> },
     {
       id: 'risk',
       label: t('tab.risk'),
@@ -254,7 +256,9 @@ export function AdminSchemeDetailPage() {
         <TabPanel id="progress" active={tab}>
           <ProgressPanel project={p} canAct={isReviewer} onChanged={reload} />
         </TabPanel>
-
+        <TabPanel id="location" active={tab}>
+          <ProjectLocationPanel project={p} canEdit={isReviewer} onSaved={reload} />
+        </TabPanel>
         <TabPanel id="risk" active={tab}>
           <RiskPanel projectId={projectId} canAct={isReviewer} onAssessmentChange={reload} />
         </TabPanel>

@@ -5,6 +5,7 @@ import { useAuth } from '@/features/auth/AuthContext'
 import { useI18n } from '@/i18n'
 import { AccessibilityBar } from '@/components/layout/AccessibilityBar'
 import { Emblem } from '@/components/layout/Emblem'
+import { MapNavLabel } from '@/features/map'
 
 /**
  * Citizen-facing chrome, laid out the way an Indian government portal is:
@@ -25,10 +26,11 @@ export function PublicLayout() {
   // official role, so the entry point appears for them and nobody else.
   const isCitizen = user !== null && user.role === 'citizen'
 
-  const navItems = [
+    const navItems = [
     { to: '/', label: t('nav.home'), end: true },
     { to: '/projects', label: t('nav.projects'), end: false },
     { to: '/statistics', label: t('nav.statistics'), end: false },
+    { to: '/map', label: <MapNavLabel />, end: false },
     { to: '/about', label: t('nav.about'), end: false },
     ...(isCitizen
       ? [{ to: '/request-access', label: t('nav.officialAccess'), end: false }]

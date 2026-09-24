@@ -16,6 +16,7 @@ import { useI18n } from '@/i18n'
 import { Badge, StatusBadge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Card, CardBody, CardHeader } from '@/components/ui/Card'
+import { ProjectLocationCard } from '@/features/map'
 import { DataGrid, DataRow, ProgressBar, StatCard } from '@/components/ui/Metrics'
 import { Spinner } from '@/components/ui/Spinner'
 import { EmptyState, ErrorState, InlineMessage } from '@/components/ui/States'
@@ -233,13 +234,15 @@ export function SchemeDetailPage() {
         </div>
 
         {/* Sidebar */}
-        <div className="min-w-0 space-y-6">
+                <div className="min-w-0 space-y-6">
           <UtilizationDonut
             allocated={p.allocated_amount}
             spent={p.spent_amount}
             title={t('detail.utilizationChart')}
             labels={{ spent: t('chart.spent'), remaining: t('chart.remaining') }}
           />
+
+          <ProjectLocationCard project={p} />
 
           <Card>
             <CardHeader

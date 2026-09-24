@@ -204,6 +204,8 @@ class ProjectUpdate(BaseModel):
     district: Optional[str] = None
     block: Optional[str] = None
     location: Optional[str] = None
+    latitude: Optional[float] = Field(default=None, ge=-90, le=90)
+    longitude: Optional[float] = Field(default=None, ge=-180, le=180)
     category: Optional[str] = None
     executing_agency: Optional[str] = None
     contractor: Optional[str] = None

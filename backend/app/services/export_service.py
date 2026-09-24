@@ -153,7 +153,7 @@ def projects_to_pdf(
     generated = _date.today().strftime("%d %B %Y")
 
     return build_table_pdf(
-        title=f"MPLAD Insight - {heading}",
+        title=f"Nidhi Netra - {heading}",
         subtitle=(
             f"Generated {generated} | {len(rows)} record(s) | "
             "Amounts in Rs. lakh | Risk score is an internal indicator, not a finding"

@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     )
 
     # --- General ----------------------------------------------------------
-    app_name: str = "MPLAD Insight"
+    app_name: str = "Nidhi Netra"
     environment: str = "development"
     api_v1_prefix: str = "/api"
 

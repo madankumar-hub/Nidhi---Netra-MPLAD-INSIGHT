@@ -22,6 +22,8 @@ import { AdminCitizenReportsPage } from '@/pages/admin/AdminCitizenReportsPage'
 import { AdminActivityPage } from '@/pages/admin/AdminActivityPage'
 import { AdminAccessRequestsPage } from '@/pages/admin/AdminAccessRequestsPage'
 import { AdminUsersPage } from '@/pages/admin/AdminUsersPage'
+import { PublicMapPage } from '@/pages/PublicMapPage'
+import { AdminMapPage } from '@/pages/admin/AdminMapPage'
 
 /** Officer, Auditor and Admin may enter the officials' portal. */
 const INTERNAL = ['officer', 'auditor', 'admin'] as const
@@ -36,6 +38,7 @@ export function AppRoutes() {
         <Route path="/scheme/:id" element={<SchemeDetailPage />} />
         <Route path="/statistics" element={<StatisticsPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/map" element={<PublicMapPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/request-access" element={<RequestAccessPage />} />
@@ -60,6 +63,7 @@ export function AppRoutes() {
         <Route path="/admin/reviews" element={<AdminReviewQueuePage />} />
         <Route path="/admin/citizen-reports" element={<AdminCitizenReportsPage />} />
         <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
+        <Route path="/admin/map" element={<AdminMapPage />} />
         <Route path="/admin/activity" element={<AdminActivityPage />} />
         {/* Administrator only - granting official roles. */}
         <Route
