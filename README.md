@@ -164,7 +164,11 @@ Analysis
 - TF-IDF similarity for duplicate detection
 - Isolation Forest anomaly detection
 - Optional external AI provider
-Project Structure
+# Project Structure
+
+The repository is divided into backend, frontend and documentation.
+
+```text
 mplad-insight/
 │
 ├── backend/
@@ -189,28 +193,22 @@ mplad-insight/
 │   ├── src/
 │   │   ├── api/
 │   │   ├── components/
-│   │   ├── features/
-│   │   │   ├── admin/
-│   │   │   ├── auth/
-│   │   │   ├── citizen/
-│   │   │   └── map/
-│   │   └── ...
+│   │   └── features/
+│   │       ├── admin/
+│   │       ├── auth/
+│   │       ├── citizen/
+│   │       └── map/
 │   ├── .env.example
 │   └── package.json
 │
 ├── docs/
-│   ├── API.md
-│   ├── ARCHITECTURE.md
-│   ├── DATABASE.md
-│   ├── DEPLOYMENT.md
-│   ├── SECURITY.md
-│   ├── DATA_INGESTION.md
-│   └── ...
-│
 ├── docker-compose.yml
 ├── Procfile
 ├── README.md
 └── .gitignore
+```
+
+# Running the Project Locally
 
 Running the Project Locally
 Requirements
