@@ -18,7 +18,8 @@ investigation.
 
 - **Live Prototype:** https://mplad-web.onrender.com/
 - **Project Report:** https://docs.google.com/document/d/1MJsPMmifSIOTMEDHz3slvrIJoyF9UAHP/edit?usp=sharing
-- **Video Walkthrough:** https://drive.google.com/file/d/1RyqAPTSrK_8aFqG2QDogjsi3XAEsTKNt/view?usp=sharing
+- **Video Walkthrough (Drive Link) :** https://drive.google.com/file/d/1RyqAPTSrK_8aFqG2QDogjsi3XAEsTKNt/view?usp=sharing
+- **Video Walkthrough (Youtube) :** https://www.youtube.com/watch?v=HE4-WlDmaus
 
 ## Two portals, one system
 
