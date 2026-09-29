@@ -4,7 +4,7 @@
 
 Nidhi Netra is a web application for monitoring and analysing development
 works carried out under the Members of Parliament Local Area Development
-Scheme (MPLADS)..
+Scheme (MPLADS).
 
 The main idea is simple: information about a project should not stop at its
 sanction. The system makes it possible to follow a project from sanction and
